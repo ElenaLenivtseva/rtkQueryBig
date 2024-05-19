@@ -16,7 +16,7 @@ export function ServicesPage() {
   return (
     <div className="page">
       <h1>Services</h1>
-      {isLoadingServices || !services ? (
+      {isLoadingServices || isLoadingDogs || !services ? (
         <>
           <Loader />
           <Loader />

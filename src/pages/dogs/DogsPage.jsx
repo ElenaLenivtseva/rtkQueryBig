@@ -1,11 +1,13 @@
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeDog, addDog, getDogs } from "./dogsSlice";
+import {useGetDogsQuery} from '../../store/apiSlice'
 import { LuckyDog } from "./LuckyDog";
 
 export function DogsPage() {
   const dialogRef = useRef();
   const dispatch = useDispatch();
+  const {data: myDogs, isLoading} = useGetDogsQuery();
   const luckyDog = useSelector((state) => state.dogs.luckyDog);
 
 
@@ -36,13 +38,13 @@ export function DogsPage() {
         list of <i>all</i> of your dogs, so that we can provide them with the
         best services possible.
       </p>
-      {Object.values(myDogs).length > 0 && (
+      {!isLoading && Object.values(myDogs).length > 0 && (
         <>
           <p>Choose the lucky dog that will be groomed next.</p>
           <LuckyDog />
         </>
       )}
-      {Object.values(myDogs).map((dog) => {
+      {!isLoading && Object.values(myDogs).map((dog) => {
         return (
           <div
             key={dog.id}

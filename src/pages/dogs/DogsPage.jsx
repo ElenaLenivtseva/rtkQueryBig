@@ -7,21 +7,21 @@ import { LuckyDog } from "./LuckyDog";
 export function DogsPage() {
   const dialogRef = useRef();
   const dispatch = useDispatch();
-  const {data: dogs, isLoading} = useGetDogsQuery();
+  const {data: myDogs, isLoading} = useGetDogsQuery();
   const luckyDog = useSelector((state) => state.dogs.luckyDog);
 
-  const myDogs = useMemo(()=> {
-    const allDogs = {};
-    for (const id in dogs) {
-      const dog = dogs[id];
-      allDogs[id] = {
-        ...dog,
-        size: getSize(dog.weight),
-        age: getAge(dog.dob)
-      }
-    }
-    return allDogs;
-  }, [dogs])
+  // const myDogs = useMemo(()=> {
+  //   const allDogs = {};
+  //   for (const id in dogs) {
+  //     const dog = dogs[id];
+  //     allDogs[id] = {
+  //       ...dog,
+  //       size: getSize(dog.weight),
+  //       age: getAge(dog.dob)
+  //     }
+  //   }
+  //   return allDogs;
+  // }, [dogs])
   const handleDeleteDog = (e, dog) => {
     e.preventDefault();
     dispatch(removeDog(dog.id));

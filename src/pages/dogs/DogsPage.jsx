@@ -1,6 +1,6 @@
-import { useRef, useMemo } from "react";
+import { useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeDog, addDog, getDogs, getSize, getAge } from "./dogsSlice";
+import { removeDog, addDog, getDogs } from "./dogsSlice";
 import {useGetDogsQuery} from '../../store/apiSlice'
 import { LuckyDog } from "./LuckyDog";
 

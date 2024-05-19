@@ -18,6 +18,18 @@ export const api = createApi({
         }),
         getDogs: builder.query({
             query: () => '/dogs',
+            transformResponse: (dogs) => {
+                const allDogs = {};
+                for (const id in dogs) {
+                    const dog = dogs[id];
+                    allDogs[id] = {
+                        ...dog,
+                        size: getSize(dog.weight),
+                        age: getAge(dog.dob)
+                    }
+                }
+                return allDogs
+            }
         }),
     }),
 })

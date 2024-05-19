@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeDog, addDog, getDogs } from "./dogsSlice";
 import { LuckyDog } from "./LuckyDog";
@@ -6,14 +6,8 @@ import { LuckyDog } from "./LuckyDog";
 export function DogsPage() {
   const dialogRef = useRef();
   const dispatch = useDispatch();
-  const dogsReady = useSelector((state) => state.dogs.dogsReady);
-  const myDogs = useSelector((state) => state.dogs.myDogs);
   const luckyDog = useSelector((state) => state.dogs.luckyDog);
 
-  useEffect(() => {
-    if (dogsReady) return;
-    dispatch(getDogs());
-  }, [dispatch, dogsReady]);
 
   const handleDeleteDog = (e, dog) => {
     e.preventDefault();

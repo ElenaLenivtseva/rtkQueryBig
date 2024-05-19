@@ -15,8 +15,11 @@ export const api = createApi({
                 method: 'POST',
                 body
             })
-        })
+        }),
+        getDogs: builder.query({
+            query: () => '/dogs',
+        }),
     }),
 })
 
-export const {useGetServicesQuery, useGetServiceQuery, useMakeContactMutation} = api;
+export const {useGetServicesQuery, useGetServiceQuery, useMakeContactMutation, useGetDogsQuery} = api;

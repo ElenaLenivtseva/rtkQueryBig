@@ -11,7 +11,7 @@ export const api = createApi({
         }),
         makeContact: builder.mutation({
             query: (body) => ({
-                url: 'contact',
+                url: '/contact',
                 method: 'POST',
                 body
             })
@@ -31,10 +31,17 @@ export const api = createApi({
                 return allDogs
             }
         }),
+        addDog: builder.mutation({
+            query: (body) => ({
+                url: '/dogs',
+                method: 'POST',
+                body
+            })
+        })
     }),
 })
 
-export const {useGetServicesQuery, useGetServiceQuery, useMakeContactMutation, useGetDogsQuery} = api;
+export const {useGetServicesQuery, useGetServiceQuery, useMakeContactMutation, useGetDogsQuery, useAddDogMutation} = api;
 
 export function getSize(weight) {
   weight = parseInt(weight, 10);

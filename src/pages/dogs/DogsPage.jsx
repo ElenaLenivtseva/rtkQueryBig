@@ -1,27 +1,17 @@
 import { useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeDog, addDog, getDogs } from "./dogsSlice";
-import {useGetDogsQuery} from '../../store/apiSlice'
+import { removeDog } from "./dogsSlice";
+import {useGetDogsQuery, useAddDogMutation} from '../../store/apiSlice'
 import { LuckyDog } from "./LuckyDog";
 
 export function DogsPage() {
   const dialogRef = useRef();
   const dispatch = useDispatch();
+  const [addDog] = useAddDogMutation()
   const {data: myDogs, isLoading} = useGetDogsQuery();
   const luckyDog = useSelector((state) => state.dogs.luckyDog);
 
-  // const myDogs = useMemo(()=> {
-  //   const allDogs = {};
-  //   for (const id in dogs) {
-  //     const dog = dogs[id];
-  //     allDogs[id] = {
-  //       ...dog,
-  //       size: getSize(dog.weight),
-  //       age: getAge(dog.dob)
-  //     }
-  //   }
-  //   return allDogs;
-  // }, [dogs])
+ 
   const handleDeleteDog = (e, dog) => {
     e.preventDefault();
     dispatch(removeDog(dog.id));
@@ -34,9 +24,7 @@ export function DogsPage() {
     const data = Object.fromEntries(formData);
 
     // add the dog, then refetch the list
-    dispatch(addDog(data)).then(() => {
-      dispatch(getDogs());
-    });
+   addDog(data)
 
     // close immediately we don't need to wait
     dialogRef.current?.close();

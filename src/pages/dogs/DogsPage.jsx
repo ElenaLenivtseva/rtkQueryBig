@@ -8,7 +8,7 @@ export function DogsPage() {
   const dialogRef = useRef();
   const dispatch = useDispatch();
   const [addDog] = useAddDogMutation()
-  const {data: myDogs, isLoading} = useGetDogsQuery();
+  const {data: myDogs, isLoading, refetch} = useGetDogsQuery();
   const luckyDog = useSelector((state) => state.dogs.luckyDog);
 
  
@@ -24,7 +24,10 @@ export function DogsPage() {
     const data = Object.fromEntries(formData);
 
     // add the dog, then refetch the list
-   addDog(data)
+   addDog(data).unwrap().then(()=>{refetch()}).catch(response => {
+     const message = `Adding dog failed: ${JSON.response}`;
+     alert(message)
+   })
 
     // close immediately we don't need to wait
     dialogRef.current?.close();

@@ -1,10 +1,8 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { LuckyDog } from "../dogs/LuckyDog";
-
-import {getServicesForLuckyDog} from './servicesSlice'
 import { Loader } from "../../components/Loader";
-import {useGetServicesQuery, useGetDogsQuery} from '../../store/apiSlice'
+import {useGetServicesQuery, useGetDogsQuery, getServicesForLuckyDog} from '../../store/apiSlice'
   
 export function ServicesPage() {
   const {data: services, isLoading: isLoadingServices} = useGetServicesQuery();

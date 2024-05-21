@@ -1,13 +1,23 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "/api",
+    prepareHeaders: (headers) =>{
+        headers.set("x-custom-header-global", Math.random())
+        return headers;
+    },
+    
+  }),
   refetchOnFocus: true,
   refetchOnReconnect: true,
   tagTypes: ["Services", "Dogs"],
   endpoints: (builder) => ({
     getServices: builder.query({
-      query: () => "/services",
+      query: () => ({
+        url: "/services",
+        headers: { "x-custom-header": Math.random() },
+      }),
     }),
     getService: builder.query({
       query: (id) => "/services/" + id,
@@ -50,14 +60,16 @@ export const api = createApi({
       method: "DELETE",
     }),
     invalidatesTags: ["Dogs"],
-    onQueryStarted(id, {dispatch, queryFullfilled}){
-       const update = dispatch(api.util.updateQueryData('getDogs', undefined, (dogs)=>{
-            delete dogs[id]
-        }));
-        queryFullfilled.catch(()=>{
-            update.undo()
+    onQueryStarted(id, { dispatch, queryFullfilled }) {
+      const update = dispatch(
+        api.util.updateQueryData("getDogs", undefined, (dogs) => {
+          delete dogs[id];
         })
-    }
+      );
+      queryFullfilled.catch(() => {
+        update.undo();
+      });
+    },
   }),
 });
 
@@ -67,7 +79,7 @@ export const {
   useMakeContactMutation,
   useGetDogsQuery,
   useAddDogMutation,
-  useRemoveDogMutation
+  useRemoveDogMutation,
 } = api;
 
 export function getSize(weight) {

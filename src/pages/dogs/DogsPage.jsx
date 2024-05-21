@@ -24,10 +24,7 @@ export function DogsPage() {
     const data = Object.fromEntries(formData);
 
     // add the dog, then refetch the list
-   addDog(data).unwrap().then(()=>{refetch()}).catch(response => {
-     const message = `Adding dog failed: ${JSON.response}`;
-     alert(message)
-   })
+   addDog(data);
 
     // close immediately we don't need to wait
     dialogRef.current?.close();

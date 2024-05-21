@@ -7,7 +7,6 @@ import { Loader } from "../../components/Loader";
 import {useGetServicesQuery, useGetDogsQuery} from '../../store/apiSlice'
   
 export function ServicesPage() {
-  const dispatch = useDispatch();
   const {data: services, isLoading: isLoadingServices} = useGetServicesQuery();
   const {data: myDogs, isLoading: isLoadingDogs} = useGetDogsQuery();
   const luckyDog = useSelector((state) => state.dogs.luckyDog);
@@ -78,5 +77,5 @@ export function ServicesPage() {
         </>
       )}
     </div>
-  );
-}
+  );}
+

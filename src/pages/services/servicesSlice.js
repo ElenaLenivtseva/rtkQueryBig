@@ -1,5 +1,5 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
-import {api} from '../../apiSlice'
+import {api} from '../../store/apiSlice'
 
 const initialState = {
   loading: false,

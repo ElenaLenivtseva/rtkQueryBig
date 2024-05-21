@@ -1,52 +1,71 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
-    baseQuery: fetchBaseQuery({baseUrl: '/api'}),
-    refetchOnFocus: true,
-    refetchOnReconnect: true,
-    tagTypes: ['Services', 'Dogs'],
-    endpoints: (builder) => ({
-        getServices: builder.query({
-            query: () => '/services',
-        }),
-        getService: builder.query({
-            query: (id) => '/services/' + id
-        }),
-        makeContact: builder.mutation({
-            query: (body) => ({
-                url: '/contact',
-                method: 'POST',
-                body
-            })
-        }),
-        getDogs: builder.query({
-            query: () => '/dogs',
-            transformResponse: (dogs) => {
-                const allDogs = {};
-                for (const id in dogs) {
-                    const dog = dogs[id];
-                    allDogs[id] = {
-                        ...dog,
-                        size: getSize(dog.weight),
-                        age: getAge(dog.dob)
-                    }
-                }
-                return allDogs
-            },
-            providesTags: ['Dogs'],
-        }),
-        addDog: builder.mutation({
-            query: (body) => ({
-                url: '/dogs',
-                method: 'POST',
-                body
-            })
-        }),
-        invalidatesTags: ['Dogs'],
+  baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
+  tagTypes: ["Services", "Dogs"],
+  endpoints: (builder) => ({
+    getServices: builder.query({
+      query: () => "/services",
     }),
-})
+    getService: builder.query({
+      query: (id) => "/services/" + id,
+    }),
+    makeContact: builder.mutation({
+      query: (body) => ({
+        url: "/contact",
+        method: "POST",
+        body,
+      }),
+    }),
+    getDogs: builder.query({
+      query: () => "/dogs",
+      transformResponse: (dogs) => {
+        const allDogs = {};
+        for (const id in dogs) {
+          const dog = dogs[id];
+          allDogs[id] = {
+            ...dog,
+            size: getSize(dog.weight),
+            age: getAge(dog.dob),
+          };
+        }
+        return allDogs;
+      },
+      providesTags: ["Dogs"],
+    }),
+    addDog: builder.mutation({
+      query: (body) => ({
+        url: "/dogs",
+        method: "POST",
+        body,
+      }),
+    }),
+    invalidatesTags: ["Dogs"],
+  }),
+  removeDog: builder.mutation({
+    query: (id) => ({
+      url: "/dogs/" + id,
+      method: "DELETE",
+    }),
+    invalidatesTags: ["Dogs"],
+    onQueryStarted(id, {dispatch}){
+        dispatch(api.util.updateQueryData('getDogs', undefined, (dogs)=>{
+            delete dogs[id]
+        }))
+    }
+  }),
+});
 
-export const {useGetServicesQuery, useGetServiceQuery, useMakeContactMutation, useGetDogsQuery, useAddDogMutation} = api;
+export const {
+  useGetServicesQuery,
+  useGetServiceQuery,
+  useMakeContactMutation,
+  useGetDogsQuery,
+  useAddDogMutation,
+  useRemoveDogMutation
+} = api;
 
 export function getSize(weight) {
   weight = parseInt(weight, 10);

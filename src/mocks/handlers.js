@@ -56,7 +56,8 @@ export const handlers = [
   }),
 
   rest.delete("/api/dogs/:id", async (req, res, ctx) => {
-    const { id } = req.params;
+    // const { id } = req.params;
+    const id = 'FAKEDOG'
     if (id in dogs) {
       // delete
       delete dogs[id];
